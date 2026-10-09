@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f2eb">
+    <title>MiniMax AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+    <script src="./app.js" defer></script>
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="/" aria-label="MiniMax home">
+                <span class="brand-mark" aria-hidden="true">M</span>
+                <span>MINIMAX<span class="brand-period">.</span></span>
+            </a>
+            <div class="topbar-right" id="topbar-status">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span class="status-label">AI ASSISTANT</span>
+                <button class="theme-toggle" id="settings-toggle" type="button" aria-label="Open settings" title="Settings" aria-haspopup="dialog" aria-controls="settings-dialog">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"></path><path d="m19.4 15 .1.1a1.7 1.7 0 0 1-2.4 2.4l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.2a1.7 1.7 0 0 1-3.4 0v-.2a1.7 1.7 0 0 0-2.9-1.2l-.1.1a1.7 1.7 0 0 1-2.4-2.4l.1-.1a1.7 1.7 0 0 0-1.2-2.9H4a1.7 1.7 0 0 1 0-3.4h.2a1.7 1.7 0 0 0 1.2-2.9l-.1-.1a1.7 1.7 0 0 1 2.4-2.4l.1.1a1.7 1.7 0 0 0 2.9-1.2V2a1.7 1.7 0 0 1 3.4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1a1.7 1.7 0 0 1 2.4 2.4l-.1.1a1.7 1.7 0 0 0 1.2 2.9h.2a1.7 1.7 0 0 1 0 3.4h-.2a1.7 1.7 0 0 0-1.2 2.9Z"></path></svg>
+                </button>
+                <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode">
+                    <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 15.5A8.5 8.5 0 0 1 8.5 3.6 8.5 8.5 0 1 0 20.4 15.5Z"></path></svg>
+                    <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="entry-screen" id="entry-screen">
+            <section class="entry-content" aria-labelledby="entry-title">
+                <span class="entry-symbol" aria-hidden="true">M <img src="./images/MINI MAX AI.png" alt="MiniMax symbol"></span>
+                <p class="eyebrow">A LITTLE SPACE TO THINK</p>
+                <h1 id="entry-title">Welcome to<br><span>MiniMax AI</span></h1>
+                <p class="entry-copy">Hi, let’s learn things together.</p>
+                <form class="entry-form" id="signin-form">
+                    <label for="email-input">Continue with your email</label>
+                    <input id="email-input" type="email" autocomplete="email" placeholder="you@example.com" required>
+                    <button class="continue-button" type="submit">Continue <span aria-hidden="true">→</span></button>
+                </form>
+                <div class="entry-divider"><span>OR</span></div>
+                <button class="continue-button guest-button" id="guest-button" type="button">Continue as guest <span aria-hidden="true">→</span></button>
+                <p class="demo-note">Email sign-in is a demo; account verification is not connected.</p>
+            </section>
+            <footer class="entry-footer"><span>MADE FOR CURIOUS MINDS</span><span>MINIMAX AI <span class="footer-mark">/</span> 01</span></footer>
+        </main>
+
+        <main class="workspace" id="workspace" hidden>
+            <div class="workspace-bar">
+                <nav class="view-tabs" aria-label="MiniMax sections">
+                    <button class="view-tab active" id="chat-tab" type="button" data-view="chat">Chat</button>
+                    <button class="view-tab" id="gallery-tab" type="button" data-view="gallery">AI bot gallery <span class="tab-lock" id="tab-lock" aria-label="Sign-in required">⌑</span></button>
+                </nav>
+                <div class="account-actions">
+                    <span class="account-label" id="account-label"></span>
+                    <button class="signout-button" id="signout-button" type="button" hidden>Sign out</button>
+                </div>
+            </div>
+
+            <section class="workspace-view chat-view" id="chat-view" aria-labelledby="chat-title">
+                <div class="chat-layout">
+                    <section class="chat-heading">
+                        <p class="eyebrow">YOUR THINKING PARTNER</p>
+                        <h1 id="chat-title">Welcome to<br><span>MiniMax AI</span></h1>
+                        <p class="intro-copy">Hi, let’s learn things together.</p>
+                    </section>
+
+                    <section class="chat-panel" aria-label="Chat with MiniMax">
+                        <div class="chat-toolbar">
+                            <div class="assistant-identity">
+                                <span class="assistant-avatar" aria-hidden="true">M</span>
+                                <span><strong>MiniMax</strong><small>Ready when you are</small></span>
+                            </div>
+                            <button class="icon-button" id="clear-chat" type="button" title="Start a new chat" aria-label="Start a new chat">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+                            </button>
+                        </div>
+
+                        <div class="messages" id="messages" aria-live="polite" aria-relevant="additions text">
+                            <div class="welcome-message" id="welcome-message">
+                                <span class="welcome-spark" aria-hidden="true"><img src="./images/MINI MAX AI.png" alt="MiniMax symbol"></span>
+                                <p>Hi, I’m MiniMax. What’s on your mind?</p>
+                                <div class="suggestions" aria-label="Try asking">
+                                    <button type="button" class="suggestion">Help me brainstorm</button>
+                                    <button type="button" class="suggestion">Explain something simply</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form class="composer" id="chat-form">
+                            <label class="visually-hidden" for="message-input">Message MiniMax</label>
+                            <textarea id="message-input" name="message" rows="1" maxlength="4000" placeholder="Write a message..." required></textarea>
+                            <div class="composer-footer">
+                                <button class="icon-button voice-button" id="voice-button" type="button" aria-label="Start voice input" title="Start voice input" aria-pressed="false">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="13" rx="3"></rect><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3m-4 0h8"></path></svg>
+                                </button>
+                                <button class="send-button" id="send-button" type="submit" aria-label="Send message" title="Send message">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                                </button>
+                            </div>
+                        </form>
+                        <p class="voice-status" id="voice-status" aria-live="polite"></p>
+                    </section>
+                    <footer class="page-footer"><span>MADE FOR CURIOUS MINDS</span><span>MINIMAX AI <span class="footer-mark">/</span> 01</span></footer>
+                </div>
+            </section>
+
+            <section class="workspace-view gallery-view" id="gallery-view" aria-labelledby="gallery-title" hidden>
+                <div class="gallery-heading">
+                    <p class="eyebrow">PICK A STARTING POINT</p>
+                    <h1 id="gallery-title">AI bot gallery</h1>
+                    <p class="intro-copy">A few focused ways to get moving.</p>
+                </div>
+                <div class="gallery-lock" id="gallery-lock" hidden>
+                    <span class="lock-mark" aria-hidden="true">⌑</span>
+                    <h2>Sign in to explore the gallery</h2>
+                    <p>Enter your email to unlock the assistant collection.</p>
+                    <form class="gallery-signin-form" id="gallery-signin-form">
+                        <label class="visually-hidden" for="gallery-email">Email address</label>
+                        <input id="gallery-email" type="email" autocomplete="email" placeholder="you@example.com" required>
+                        <button class="continue-button" type="submit">Sign in <span aria-hidden="true">→</span></button>
+                    </form>
+                    <p class="demo-note">Demo email entry only; verification is not connected.</p>
+                </div>
+                <div class="bot-grid" id="bot-grid">
+                    <article class="bot-card">
+                        <span class="bot-icon study-icon" aria-hidden="true">↗</span>
+                        <p class="bot-category">LEARNING</p>
+                        <h2>Study guide</h2>
+                        <p>Break a big topic into clear, manageable steps.</p>
+                        <button class="bot-action" type="button" data-prompt="Help me understand a topic step by step.">Try in chat <span aria-hidden="true">→</span></button>
+                    </article>
+                    <article class="bot-card">
+                        <span class="bot-icon write-icon" aria-hidden="true">Aa</span>
+                        <p class="bot-category">CREATIVE</p>
+                        <h2>Writing partner</h2>
+                        <p>Find a first line, shape a draft, or get unstuck.</p>
+                        <button class="bot-action" type="button" data-prompt="Help me get started on a piece of writing.">Try in chat <span aria-hidden="true">→</span></button>
+                    </article>
+                    <article class="bot-card">
+                        <span class="bot-icon code-icon" aria-hidden="true">{ }</span>
+                        <p class="bot-category">BUILDING</p>
+                        <h2>Code companion</h2>
+                        <p>Think through a bug or plan your next small step.</p>
+                        <button class="bot-action" type="button" data-prompt="Help me think through a coding problem.">Try in chat <span aria-hidden="true">→</span></button>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <dialog class="settings-dialog" id="settings-dialog" aria-labelledby="settings-title">
+            <form id="settings-form">
+                <div class="settings-heading">
+                    <div>
+                        <p class="eyebrow">MAKE IT YOURS</p>
+                        <h2 id="settings-title">Settings</h2>
+                    </div>
+                    <button class="icon-button settings-close" id="settings-close" type="button" aria-label="Close settings">×</button>
+                </div>
+                <label class="settings-field" for="setting-theme">
+                    <span>Appearance</span>
+                    <select id="setting-theme" name="theme">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </label>
+                <label class="settings-field" for="setting-response-length">
+                    <span>Response length</span>
+                    <select id="setting-response-length" name="response_length">
+                        <option value="concise">Concise</option>
+                        <option value="balanced">Balanced</option>
+                        <option value="detailed">Detailed</option>
+                    </select>
+                </label>
+                <label class="settings-field" for="setting-response-style">
+                    <span>Mode</span>
+                    <select id="setting-response-style" name="response_style">
+                        <option value="smart">Smart Mode</option>
+                        <option value="dumb">Dumb Mode</option>
+                        <option value="joke">Joke Mode</option>
+                    </select>
+                </label>
+                <label class="settings-field" for="setting-voice">
+                    <span>Spoken voice</span>
+                    <select id="setting-voice" name="voice">
+                        <option value="">System default</option>
+                    </select>
+                </label>
+                <label class="settings-field" for="setting-speech-rate">
+                    <span>Speech speed <output id="speech-rate-value" for="setting-speech-rate">1×</output></span>
+                    <input id="setting-speech-rate" name="speech_rate" type="range" min="0.7" max="1.3" step="0.1" value="1">
+                </label>
+                <label class="settings-check" for="setting-auto-speak">
+                    <input id="setting-auto-speak" name="auto_speak" type="checkbox">
+                    <span>Read replies aloud automatically</span>
+                </label>
+                <label class="settings-check" for="setting-markdown">
+                    <input id="setting-markdown" name="markdown" type="checkbox" checked>
+                    <span>Format Markdown in replies</span>
+                </label>
+                <div class="settings-actions">
+                    <button class="settings-cancel" id="settings-cancel" type="button">Cancel</button>
+                    <button class="continue-button settings-save" type="submit">Save settings</button>
+                </div>
+            </form>
+        </dialog>
+    </div>
+</body>
+</html>
